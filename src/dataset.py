@@ -12,9 +12,10 @@ class ElectionDataset:
 
     def prepare(self, filename: str = "img1.png"):
         for item in os.listdir(self.dir_path):
-            filepath = os.path.join(self.dir_path, item, filename)
+            filepath = os.path.join(self.dir_path, item)
             known_image = self._loader(filepath)
-            encoding_image = self._encoder(known_image)[0]
+            face_locations = face_recognition.face_locations(known_image)
+            encoding_image = self._encoder(known_image, face_locations)[0]
             self._known_face_encodings.append(encoding_image)
             self._known_face_names.append(item)
     
